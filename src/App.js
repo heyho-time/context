@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext, useContext } from "react";
+import "./App.css";
 
-function App() {
+const themeDefault = { border: "10px solid red" };
+const themeContext = createContext(themeDefault);
+
+export default function App() {
+  const theme = useContext(themeContext);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <themeContext.Provider value={{ border: "10px solid blue" }}>
+      <div className="root" style={theme}>
+        <h1>Hello World</h1>
+        <Sub1 />
+      </div>
+    </themeContext.Provider>
+  );
+}
+
+function Sub1() {
+  const theme = useContext(themeContext);
+  return (
+    <themeContext.Provider value={{ border: "10px solid green" }}>
+      <div style={theme}>
+        <h1>Sub1</h1>
+        <Sub2 />
+      </div>
+    </themeContext.Provider>
+  );
+}
+
+function Sub2() {
+  const theme = useContext(themeContext);
+  return (
+    <div style={theme}>
+      <h1>Sub2</h1>
+      <Sub3 />
     </div>
   );
 }
 
-export default App;
+function Sub3() {
+  const theme = useContext(themeContext);
+  return (
+    <div style={theme}>
+      <h1>Sub3</h1>
+    </div>
+  );
+}
